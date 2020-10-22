@@ -88,9 +88,9 @@ def gradient_descent(params, max_iterations, lr, plot):
     e = compute_e(params) # Initial calculation of energy level
     gradient_path = []
     
-    def add_plot():
-        one_step = params.copy()
-        one_step.append(e)
+    def add_plot(params_plot, e_plot):
+        one_step = params_plot.copy()
+        one_step.append(e_plot)
         gradient_path.append(one_step) # saving values for plotting
         
     while (number_of_iterations < max_iterations): # Breaks loop if maximum iterations is reached
@@ -99,25 +99,19 @@ def gradient_descent(params, max_iterations, lr, plot):
             
         if lr < 0.0005: 
             if plot:
-                add_plot()
+                add_plot(new_params, new_e)
             break 
         elif new_e > e: 
             lr = lr/2
         else:
             params, e =  new_params, new_e # updates the variables with the new values
-            if (number_of_iterations % 100 == 0) and plot:
-                add_plot()
+            if (number_of_iterations % 10 == 0) and plot:
+                add_plot(new_params, new_e)
         
         number_of_iterations += 1
 
     return params, gradient_path, number_of_iterations
-
-def estimate_lowest_energy(params, plot, max_iterations = 10000, lr = 1, ):
-    # Running gradient descent
-    params, gradient_path, iterations_used = gradient_descent(params=params, max_iterations=max_iterations, lr=lr, plot=plot)
-    return params, gradient_path, iterations_used
     
-
 def create_plot_axes(x_min, x_max, x_step, y_min, y_max, y_step):
     """Creating surface for plotting"""
 
@@ -127,7 +121,7 @@ def create_plot_axes(x_min, x_max, x_step, y_min, y_max, y_step):
     X, Y = np.meshgrid(X, Y)
     return X, Y, E
 
-def plot_gradient_descent(gradient_path, step_size = 1):
+def plot_gradient_descent(gradient_path):
     fig = plt.figure(figsize=(10,8))
     ax = fig.add_subplot(111, projection='3d')
 
@@ -137,8 +131,7 @@ def plot_gradient_descent(gradient_path, step_size = 1):
 
     # Path
     gradient_path = np.array(gradient_path) # transforms into a numpy array
-    ax.plot(gradient_path[::step_size,0], gradient_path[::step_size,1], gradient_path[::step_size, 2], 'bx-', label='path')
-
+    ax.plot(gradient_path[:,0], gradient_path[:,1], gradient_path[:,2], 'bx-', label='path')
     ax.plot(gradient_path[-1:,0], gradient_path[-1:,1], gradient_path[-1:,2], markerfacecolor='r', marker='o', markersize=5, label='endpoint')
 
     # Labeling
@@ -173,7 +166,7 @@ def norm_vector(vector, h):
 # Handling input variables
 parser = argparse.ArgumentParser(description='A script that estimates the energy of a quantum physical two body system by implementing gradient descent')
 parser.add_argument('-x', type=float, default=1.0, metavar='x0',help='initial value for x', required=True)
-parser.add_argument('-a', type=float, default=1.0, metavar='a',help='initial value for a', required=True)
+parser.add_argument('-a', type=float, default=1.0, metavar='a',help='initial value for a (sigma)', required=True)
 parser.add_argument('-b', type=float, default=1.0, metavar='b',help='initial value for b', required=False)
 parser.add_argument('-lr', type=float, default=1.0, metavar='learning rate', help='value for initial learning rate used in gradient descent', required=False)
 parser.add_argument('-i', '--max_iter', type=int, default=2000, metavar='max iterations',
@@ -181,7 +174,7 @@ help='number of maximum iterations in gradient descent', required=False)
 parser.add_argument('-f', '--function', dest='func', choices=['func1', 'func2'], required=False,
                     help='Choose between the functions. Default: func1', default='func1')
 parser.add_argument('-p', '--plot', dest='plot', action='store_true', default=False,
-                    help='Option for plotting the result')
+                    help='Option for plotting the result', required=False)
 
 # Forklaring: type=type parser konverterer til, metavar=dummy variabelnavn i help og feilmeldinger,
 # dest=variabelnavn for lagring
@@ -195,7 +188,7 @@ b = args.b
 max_iter = args.max_iter
 lr = args.lr
 func = args.func
-plot_res = args.plot
+print_plot = args.plot
     
 # Constants
 L = 20 # Length of interval
@@ -209,7 +202,8 @@ xi = np.linspace(-L/2, L/2, N)
 v_vector = get_v_vector(xi, func)
 finite_difference_matrix = create_2nd_order_finite_difference_scheme()
 
-params, gradient_path, iterations_used = estimate_lowest_energy(params=[x0, a], max_iterations=max_iter, lr=lr, plot=plot_res)
+# Running gradient descent
+params, gradient_path, iterations_used = gradient_descent(params=[x0, a], max_iterations=max_iter, lr=lr, plot=print_plot)
 
 new_x0, new_sigma = params
 E, u = most_accurate_e()
@@ -223,6 +217,6 @@ print(f"Most accurate answer: {E}")
 print(f"Used {iterations_used} out of {max_iter} iterations")
 
 
-if (plot_res):
+if (print_plot):
     plot_wave_functions(old_params = [x0, a], new_params = [new_x0, new_sigma])
-    #plot_gradient_descent(gradient_path, step_size=1)
+    plot_gradient_descent(gradient_path)
