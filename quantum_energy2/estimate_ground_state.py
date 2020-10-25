@@ -4,14 +4,13 @@
 # The Energy of a Quantum Physical Two-Body System
 
 #Importing libraries
-import argparse
 import numpy as np
 import quantum_energy2.physics as physics
 import quantum_energy2.plots as plots
 import quantum_energy2.optimization as optimization
 
 def one_particle_estimation(args):
-        # Handling input variables
+    # Unpcking input variables
 
     x0 = args['x0']
     a = args['a']
