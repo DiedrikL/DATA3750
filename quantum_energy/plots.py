@@ -21,7 +21,7 @@ def plot_gradient_descent(gradient_path, L, h, finite_difference_matrix, v_vecto
 
     # Path
     gradient_path = np.array(gradient_path) # transforms into a numpy array
-    ax.plot(gradient_path[:,0], gradient_path[:,1], gradient_path[:,2], 'bx-', label='path')
+    ax.plot(gradient_path[::1,0], gradient_path[::1,1], gradient_path[::1,2], 'bx-', label='path')
     ax.plot(gradient_path[-1:,0], gradient_path[-1:,1], gradient_path[-1:,2], markerfacecolor='r', marker='o', markersize=5, label='endpoint')
 
     # Labeling

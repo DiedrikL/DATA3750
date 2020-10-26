@@ -30,9 +30,12 @@ def parse_config_file():
     
     config = configparser.ConfigParser()
     config.read(CONFIG_FILE)
-    x0 = config['PARAMS'].getfloat('x0')
-    a = config['PARAMS'].getfloat('a')
-    b = config['PARAMS'].getfloat('b')
+
+    params = []
+    
+    for (key, val) in config.items('PARAMS'):
+        params.append(float(val))
+
     lr = config['CONFIGURATION'].getfloat('lr')
     max_iter = config['CONFIGURATION'].getint('max_iter')
     plot = config['CONFIGURATION'].getboolean('plot')
@@ -40,15 +43,14 @@ def parse_config_file():
     num_particles = config['CONFIGURATION'].getint('num_particles')
 
     args = {
-        'x0':x0,
-        'a':a, 
-        'b':b, 
+        'params':params,
         'lr':lr, 
         'max_iter':max_iter, 
         'plot': plot,
         'func':func, 
         'num_particles':num_particles
         }
+
     return args
 
 
