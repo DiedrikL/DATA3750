@@ -9,9 +9,9 @@ def parse_cli_arguments():
     parser = argparse.ArgumentParser(description='A script that estimates the energy of a quantum physical two body system by implementing gradient descent')
     parser.add_argument('-x0', type=float, default=1.0, metavar='x0',help='initial value for x', required=False)
     parser.add_argument('-a', type=float, default=1.0, metavar='a',help='initial value for a (sigma)', required=False)
-    parser.add_argument('-b', type=float, default=1.0, metavar='b',help='initial value for b', required=False)
+    parser.add_argument('-b', type=float, default=0.0, metavar='b',help='initial value for b', required=False)
     parser.add_argument('-lr', type=float, default=1.0, metavar='learning rate', help='value for initial learning rate used in gradient descent', required=False)
-    parser.add_argument('-i', '--max_iter', type=int, default=2000, metavar='max iterations',
+    parser.add_argument('-i', '--max_iter', type=int, default=20000, metavar='max iterations',
     help='number of maximum iterations in gradient descent', required=False)
     parser.add_argument('-f', '--function', dest='func', choices=['func1', 'func2'], required=False,
                         help='Choose between the functions. Default: func1', default='func1')
@@ -22,9 +22,21 @@ def parse_cli_arguments():
     # dest=variabelnavn for lagring
 
     args = parser.parse_args()
-    print(args)
-    return vars(args)
+    args_dict = gather_params_in_list(vars(args))
+    return args_dict
 
+def gather_params_in_list(args):
+    args_dict = args.copy()
+    x0 = args_dict.pop('x0')
+    a = args_dict.pop('a')
+    b = args_dict.pop('b', 0)
+    params = [x0, a]
+    if b:
+        params.append(b)
+    args_dict['params'] = params
+
+    return args_dict
+    
 def parse_config_file():
     assert os.path.isfile(CONFIG_FILE)
     
