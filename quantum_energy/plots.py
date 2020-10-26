@@ -1,6 +1,6 @@
 import numpy as np
 import matplotlib.pyplot as plt
-from physics import psi_func, compute_e
+from quantum_energy2.physics import psi_func, compute_e
 
 def create_plot_axes(x_min, x_max, x_step, y_min, y_max, y_step, h, finite_difference_matrix, v_vector, xi):
     """Creating surface for plotting"""

@@ -1,4 +1,4 @@
-from physics import partial_difference_quotient, compute_e
+from quantum_energy2.physics import partial_difference_quotient, compute_e
 
 def gradient_step(params, lr, finite_difference_matrix, v_vector, xi):
     new_params = []
