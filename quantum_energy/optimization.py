@@ -35,3 +35,25 @@ def gradient_descent(params, max_iterations, lr, plot, finite_difference_matrix,
         used_iterations += 1
 
     return params, gradient_path, used_iterations
+
+def print_estimate(old_params, new_params, initial_energy, energy_estimate, E, u, iterations_used, max_iter):
+    if len(old_params) == 2:
+        x0, a = old_params
+        new_x0, new_a = new_params
+        print(f"Initial energy at x0 = {x0} and a = {a}: {initial_energy}")
+        print('Estimations:')
+        print(f"x0: {new_x0}")
+        print(f"a: {new_a}")
+        
+    else:
+        x0, a, b = old_params
+        new_x0, new_a, new_b = new_params
+        print(f"Initial energy at x0 = {x0}, a = {a} and b = {b}: {initial_energy}")
+        print('Estimations:')
+        print(f"x0: {new_x0}")
+        print(f"a: {new_a}")
+        print(f'b: {new_b}')
+    
+    print(f"Found energy: {energy_estimate}")
+    print(f"Most accurate answer: {E}")
+    print(f"Used {iterations_used} out of {max_iter} iterations")
