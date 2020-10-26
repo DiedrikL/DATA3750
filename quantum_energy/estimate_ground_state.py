@@ -5,9 +5,9 @@
 
 #Importing libraries
 import numpy as np
-import quantum_energy2.physics as physics
-import quantum_energy2.plots as plots
-import quantum_energy2.optimization as optimization
+import quantum_energy.physics as physics
+import quantum_energy.plots as plots
+import quantum_energy.optimization as optimization
 
 def one_particle_estimation(args):
     # Unpcking input variables

@@ -30,7 +30,6 @@ def parse_config_file():
     
     config = configparser.ConfigParser()
     config.read(CONFIG_FILE)
-    print(config.sections())
     x0 = config['PARAMS'].getfloat('x0')
     a = config['PARAMS'].getfloat('a')
     b = config['PARAMS'].getfloat('b')
