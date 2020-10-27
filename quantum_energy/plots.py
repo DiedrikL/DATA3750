@@ -11,7 +11,7 @@ def create_plot_axes(x_min, x_max, x_step, y_min, y_max, y_step, h, finite_diffe
     X, Y = np.meshgrid(X, Y)
     return X, Y, E
 
-def plot_gradient_descent(gradient_path, L, h, finite_difference_matrix, v_vector, xi):
+def plot_gradient_descent(gradient_path, L, h, finite_difference_matrix, v_vector, xi, block_plot):
     fig = plt.figure(figsize=(10,8))
     ax = fig.add_subplot(111, projection='3d')
 
@@ -31,7 +31,15 @@ def plot_gradient_descent(gradient_path, L, h, finite_difference_matrix, v_vecto
     ax.set_zlabel('e', fontsize=15)
     ax.view_init(elev=35, azim=300)
     fig.legend(loc='upper left')
-    plt.show()
+    plt.show(block = block_plot)
+    return (fig,ax)
+
+def plot_new_path(ax, gradient_path):
+    gradient_path = np.array(gradient_path) # transforms into a numpy array
+    ax.plot(gradient_path[::1,0], gradient_path[::1,1], gradient_path[::1,2], 'bx-', label='path')
+    ax.plot(gradient_path[-1:,0], gradient_path[-1:,1], gradient_path[-1:,2], markerfacecolor='r', marker='o', markersize=5, label='endpoint')
+    plt.show(block = False)
+
 
 def plot_wave_functions(old_params, new_params, xi, u , h):
     fig, ax = plt.subplots(figsize=(10,6))
@@ -52,3 +60,4 @@ def plot_wave_functions(old_params, new_params, xi, u , h):
 
 def norm_vector(vector, h):
     return h*(vector.T @ vector)
+

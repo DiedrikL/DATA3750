@@ -40,8 +40,9 @@ def print_estimate(old_params, new_params, initial_energy, energy_estimate, E, u
     if len(old_params) == 2:
         x0, a = old_params
         new_x0, new_a = new_params
-        print(f"Initial energy at x0 = {x0} and a = {a}: {initial_energy}")
-        print('Estimations:')
+        print('************************************************************')
+        print(f"Initial energy at x0 = {x0} and a = {a}: {initial_energy}\n")
+        print('Estimated parameter values:')
         print(f"x0: {new_x0}")
         print(f"a: {new_a}")
         
@@ -54,6 +55,7 @@ def print_estimate(old_params, new_params, initial_energy, energy_estimate, E, u
         print(f"a: {new_a}")
         print(f'b: {new_b}')
     
-    print(f"Found energy: {energy_estimate}")
+    print(f"New energy: {energy_estimate}")
     print(f"Most accurate answer: {E}")
     print(f"Used {iterations_used} out of {max_iter} iterations")
+    print('************************************************************')
