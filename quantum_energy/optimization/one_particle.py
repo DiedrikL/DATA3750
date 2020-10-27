@@ -16,7 +16,9 @@ def gradient_descent(params, max_iterations, lr, plot, finite_difference_matrix,
         one_step = params_plot.copy()
         one_step.append(e_plot)
         gradient_path.append(one_step)
-        
+
+    add_plot(params, e)
+    
     while (used_iterations < max_iterations): # Breaks loop if maximum iterations is reached
         new_params = gradient_step(params, lr, finite_difference_matrix, v_vector, xi) # New values for parameters
         new_e = compute_e(new_params, lr, finite_difference_matrix, v_vector, xi) # New value for energy level
