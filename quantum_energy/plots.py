@@ -16,7 +16,7 @@ def plot_gradient_descent(gradient_path, L, h, finite_difference_matrix, v_vecto
     ax = fig.add_subplot(111, projection='3d')
 
     # Surface plot
-    X, Y, E = create_plot_axes(-L/3, L/3, h*10, 0.5, 5, 0.1, h, finite_difference_matrix, v_vector, xi) 
+    X, Y, E = create_plot_axes(-L/3, L/3, h*10, 0.2, 5, 0.1, h, finite_difference_matrix, v_vector, xi) 
     ax.plot_surface(X, Y, Z=E.T, rstride=1, cstride=1, cmap='viridis', alpha = 0.6)
 
     # Path
