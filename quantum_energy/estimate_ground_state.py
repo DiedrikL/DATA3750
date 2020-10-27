@@ -5,11 +5,11 @@
 
 #Importing libraries
 import numpy as np
-import quantum_energy.physics as physics
+import quantum_energy.physics.one_particle as physics
 import quantum_energy.plots as plots
-import quantum_energy.optimization as optimization
-import quantum_energy.physics_two_particle as physics2
-import quantum_energy.optimization_two_particle as optimization2
+import quantum_energy.optimization.one_particle as optimization
+import quantum_energy.physics.two_particles as physics2
+import quantum_energy.optimization.two_particles as optimization2
 
 def one_particle_estimation(args):
     # Unpacking input variables

@@ -1,4 +1,4 @@
-import quantum_energy.physics_two_particle as physics2
+import quantum_energy.physics.two_particles as physics2
 
 def gradient_step(params, lr, xi_1, xi_2, H, W):
     new_params = []
