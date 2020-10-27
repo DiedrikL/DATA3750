@@ -1,5 +1,5 @@
 import numpy as np
-import quantum_energy.physics as physics
+import quantum_energy.physics.one_particle as physics
 
 
 def create_psi_matrix(x0, a, xi_1, xi_2):
