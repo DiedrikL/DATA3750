@@ -22,7 +22,7 @@ def psi_func(x, *args):
         return np.exp(-a*(x-x0)**2)
     elif len(args) == 3:
         x0, a, b = args
-        return np.exp(-a*(x-x0)**2-b*(x-x0)**4)
+        return np.exp(-abs(a)*(x-x0)**2/(np.sqrt(1 + abs(b)*x**2)))
 
 def create_psi_vector(xi, params):
     return np.array(psi_func(xi, *params)).reshape(-1,1)
