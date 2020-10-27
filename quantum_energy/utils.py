@@ -10,7 +10,7 @@ def parse_cli_arguments():
     parser.add_argument('-x0', type=float, default=1.0, metavar='x0',help='initial value for x', required=False)
     parser.add_argument('-a', type=float, default=1.0, metavar='a',help='initial value for a (sigma)', required=False)
     parser.add_argument('-b', type=float, default=0.0, metavar='b',help='initial value for b', required=False)
-    parser.add_argument('-lr', type=float, default=1.0, metavar='learning rate', help='value for initial learning rate used in gradient descent', required=False)
+    parser.add_argument('-lr', type=float, default=0.5, metavar='learning rate', help='value for initial learning rate used in gradient descent', required=False)
     parser.add_argument('-i', '--max_iter', type=int, default=20000, metavar='max iterations',
     help='number of maximum iterations in gradient descent', required=False)
     parser.add_argument('-f', '--function', dest='func', choices=['func1', 'func2'], required=False,
@@ -18,6 +18,9 @@ def parse_cli_arguments():
     parser.add_argument('-p', '--plot', dest='plot', action='store_true', default=False,
                         help='Option for plotting the result', required=False)
     parser.add_argument('-np', '--num_particles', type=int, dest='num_particles', default = 1, help='number of particles in quantum system', choices=[1,2], required = False)
+    parser.add_argument('-it', '--interactive', dest='interactive', action='store_true', default=False,
+                        help='Lets you run gradient descent several times to plot multiple paths on a surface. Only works for test functions with two parameters', 
+                        required=False)
     # Forklaring: type=type parser konverterer til, metavar=dummy variabelnavn i help og feilmeldinger,
     # dest=variabelnavn for lagring
 
@@ -53,6 +56,7 @@ def parse_config_file():
     plot = config['CONFIGURATION'].getboolean('plot')
     func = config['CONFIGURATION']['function']
     num_particles = config['CONFIGURATION'].getint('num_particles')
+    interactive = config['CONFIGURATION'].getboolean('interactive')
 
     args = {
         'params':params,
@@ -60,7 +64,8 @@ def parse_config_file():
         'max_iter':max_iter, 
         'plot': plot,
         'func':func, 
-        'num_particles':num_particles
+        'num_particles':num_particles,
+        'interactive': interactive
         }
 
     return args

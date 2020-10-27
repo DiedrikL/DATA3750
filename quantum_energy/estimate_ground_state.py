@@ -17,6 +17,7 @@ def one_particle_estimation(args):
     lr = args['lr']
     func = args['func']
     print_plot = args['plot']
+    interactive_mode = args['interactive']
 
     # Constants
     L = 20 # Length of interval
@@ -47,7 +48,45 @@ def one_particle_estimation(args):
     if (print_plot):
         plots.plot_wave_functions(old_params = params, new_params = new_params, xi=xi, u=u, h=h)
         if len(params) == 2:
-            plots.plot_gradient_descent(gradient_path, L, h, finite_difference_matrix, v_vector, xi)
+            _, ax = plots.plot_gradient_descent(gradient_path, L, h, finite_difference_matrix, v_vector, xi, not interactive_mode)
+            if interactive_mode:
+                while True:
+                    plot_again = input('\nDo you want to plot another path? y/n: ')
+
+                    if plot_again.lower() == 'y':
+                        print('Choose parameters to initialize gradient descent:\n')
+                        x0 = float(input('Initial guess for x0: '))
+                        a = float(input('Initial guess for a/sigma: '))
+
+                        _, gradient_path, _= optimization.gradient_descent(
+                            params=[x0, a], max_iterations=max_iter, lr=lr, plot=True,
+                            finite_difference_matrix=finite_difference_matrix, v_vector=v_vector, xi=xi
+                            )
+
+                        plots.plot_new_path(ax, gradient_path)
+
+                    else:
+                        break
+
+
+def interactive_plot():
+    while True:
+        plot_again = input('Do you want to plot another path? y/n: ')
+
+        if plot_again.lower() == 'y':
+            print('Choose parameters to initialize gradient descent\n')
+            x0 = float(input('Initial guess for x0: '))
+            a = float(input('Initial guess for a/sigma: '))
+
+            _, gradient_path, _= optimization.gradient_descent(
+                params=[x0, a], max_iterations=max_iter, lr=lr, plot=True,
+                finite_difference_matrix=finite_difference_matrix, v_vector=v_vector, xi=xi
+                )
+
+            plots.plot_new_path(ax, gradient_path)
+
+        else:
+            break
 
 def two_particle_estimation(args):
     print("Two particle")
