@@ -87,23 +87,23 @@ def two_particle_estimation(args):
     h = L / N # Stepsize
 
     # Argument vector
-    xi_1 = np.linspace(-L/2, L/2, N)
-    xi_2 = xi_1.copy()
-    W = physics2.create_w_matrix(xi_1, xi_2, w0 = 2)
+    xi= np.linspace(-L/2, L/2, N)
+
+    W = physics2.create_w_matrix(xi, w0 = 0)
     fdm = physics.create_2nd_order_finite_difference_scheme(N, h)
-    H = physics2.create_H_matrix(fdm, xi_1)
+    H = physics2.create_H_matrix(fdm, xi)
 
     # Calculates energy at inital guess
-    initial_energy = physics2.calculate_e(x0, a, xi_2, xi_2, H, W)
+    initial_energy = physics2.calculate_e(x0, a, xi, H, W)
 
     # Running gradient descent
     new_params, _gradient_path_, iterations_used = optimization2.gradient_descent(
-        x0, a, max_iterations=max_iter, lr=lr, plot=print_plot, H = H, W = W, xi_1 = xi_1, xi_2 = xi_2)
+        x0, a, max_iterations=max_iter, lr=lr, plot=print_plot, H = H, W = W, xi = xi)
 
     # Calculates energy after gradient descent
     params = [x0, a]
     new_x0, new_a = new_params
-    new_energy = physics2.calculate_e(new_x0, new_a, xi_2, xi_2, H, W)
+    new_energy = physics2.calculate_e(new_x0, new_a, xi, H, W)
 
     # E, u = physics.most_accurate_e(finite_difference_matrix, v_vector)
 
@@ -111,7 +111,7 @@ def two_particle_estimation(args):
 
     if (print_plot):
 
-        plots.plot_psi_matrix(params, new_params, xi_1, xi_2)
+        plots.plot_psi_matrix(params, new_params, xi)
 
 
 def run(args, num_particles):

@@ -1,18 +1,20 @@
 import quantum_energy.physics.two_particles as physics2
 
-def gradient_step(params, lr, xi_1, xi_2, H, W):
+def gradient_step(params, lr, xi, H, W):
     new_params = []
     for i, param in enumerate(params):
-        new_value = param - lr * physics2.partial_difference_quotient2(params, i, lr, xi_1, xi_2, H, W)
+        new_value = param - lr * physics2.partial_difference_quotient2(params, i, lr, xi, H, W)
         new_params.append(new_value)
     return new_params
 
-def gradient_descent(x0, a, max_iterations, lr, plot, H, W, xi_1, xi_2):
+def gradient_descent(x0, a, max_iterations, lr, plot, H, W, xi):
     used_iterations = 0
-    e = physics2.calculate_e(x0, a, xi_2, xi_2, W, H) # Initial calculation of energy level
+    e = physics2.calculate_e(x0, a, xi, W, H) # Initial calculation of energy level
     gradient_path = []
     params = [x0, a]
 
+    def print_status():
+        print(f"Iterations: {used_iterations}/{max_iterations}", end ="\r")
 
     def add_plot(params_plot, e_plot): # Saves values for plotting
         one_step = params_plot.copy()
@@ -20,9 +22,11 @@ def gradient_descent(x0, a, max_iterations, lr, plot, H, W, xi_1, xi_2):
         gradient_path.append(one_step)
         
     while (used_iterations < max_iterations): # Breaks loop if maximum iterations is reached
-        new_params = gradient_step(params, lr, xi_1, xi_2, H, W) # New values for parameters
+        new_params = gradient_step(params, lr, xi, H, W) # New values for parameters
         x0, a = new_params
-        new_e = physics2.calculate_e(x0, a, xi_2, xi_2, W, H) # New value for energy level
+        new_e = physics2.calculate_e(x0, a, xi, W, H) # New value for energy level
+
+        print_status()
 
         if (used_iterations % 10 == 0):
                 print(new_e)

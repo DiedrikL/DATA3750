@@ -12,38 +12,30 @@ def create_plot_axes(x_min, x_max, x_step, y_min, y_max, y_step, h, finite_diffe
     X, Y = np.meshgrid(X, Y)
     return X, Y, E
 
-def plot_psi_matrix(old_params, new_params, xi_1, xi_2):
+def plot_psi_matrix(guess_params, new_params, xi):
 
     fig = plt.figure(figsize=(10,8))
     ax = fig.add_subplot(111, projection='3d')
 
-    X, Y = np.meshgrid(xi_1, xi_2)
+    X, Y = np.meshgrid(xi, xi)
+    step_size = (np.max(xi) - np.min(xi))/len(xi)
 
-    step_size = (np.max(xi_1) - np.min(xi_1))/len(xi_1)
+    guess_x0, guess_a = guess_params
+    psi_guess =  create_psi_matrix(guess_x0, guess_a, xi)
+    psi_guess_norm = psi_guess/np.sqrt(norm_matrix(psi_guess, step_size))
 
-    x0, a = old_params
-    psi_old =  create_psi_matrix(x0, a, xi_1, xi_2)
-    #psi_old_norm = psi_old/np.sqrt(norm_vector(psi_old, step_size))
-    x_max, x_min = psi_old.max(), psi_old.min() 
-    psi_old_norm = (psi_old - x_min)/(x_max - x_min)
-
-    ax.plot_surface(X, Y, Z=psi_old_norm**2, rstride=5, cstride=5, cmap='viridis',alpha = 0.8, label = 'psi_old')
+    ax.plot_surface(X, Y, Z=psi_guess_norm, rstride=10, cstride=10, cmap='viridis',alpha = 0.5, label = 'psi_old')
 
     x0, a = new_params
-    psi_new =  create_psi_matrix(x0, a, xi_1, xi_2)
+    psi_new =  create_psi_matrix(x0, a, xi)
+    psi_new_norm = psi_new/np.sqrt(norm_matrix(psi_new, step_size))
 
-    x_max, x_min = psi_new.max(), psi_new.min() 
-    psi_new_norm = (psi_new - x_min)/(x_max - x_min)
+    ax.plot_surface(X, Y, Z=psi_new_norm,rstride=10, cstride=10, cmap='coolwarm',alpha = 0.8, label = 'psi_new')
+    
 
-    # psi_old_norm = (psi_old - x_min)/(x_max - x_min)
-
-    #psi_new_norm = psi_new/np.sqrt(norm_vector(psi_new, step_size))
-
-    ax.plot_surface(X, Y, Z=psi_new_norm**2, rstride=5, cstride=5, cmap='coolwarm',alpha = 0.8, label = 'psi_new')
- 
     ax.set_title('Psi(x0, a)', fontsize=20)
-    ax.set_xlabel('xi_1', fontsize=15)
-    ax.set_ylabel('xi_2', fontsize=15)
+    ax.set_xlabel('x_1', fontsize=15)
+    ax.set_ylabel('x_2', fontsize=15)
     ax.set_zlabel('psi', fontsize=15)
     ax.view_init(elev=35, azim=300)
     #plt.legend(loc='upper left')
@@ -101,4 +93,7 @@ def plot_wave_functions(old_params, new_params, xi, u , h):
 
 def norm_vector(vector, h):
     return h*(vector.T @ vector)
+
+def norm_matrix(matrix, h):
+    return h**2 * np.sum(np.sum(np.abs(matrix)**2))
 
