@@ -13,6 +13,9 @@ def parse_cli_arguments():
     parser.add_argument('-lr', type=float, default=0.5, metavar='learning rate', help='value for initial learning rate used in gradient descent', required=False)
     parser.add_argument('-i', '--max_iter', type=int, default=20000, metavar='max iterations',
     help='number of maximum iterations in gradient descent', required=False)
+    parser.add_argument('-l', type=int, dest='L', default=20, help='Lenght of interval', required=False)
+    parser.add_argument('-n', type=int, dest='N', default=500, help='Number of subintervals', required=False)
+    parser.add_argument('-w0', type=int, dest='w0', default=0, help='w0 must be positive', required=False)
     parser.add_argument('-f', '--function', dest='func', choices=['func1', 'func2'], required=False,
                         help='Choose between the functions. Default: func1', default='func1')
     parser.add_argument('-p', '--plot', dest='plot', action='store_true', default=False,
@@ -37,6 +40,9 @@ def gather_params_in_list(args):
     if b:
         params.append(b)
     args_dict['params'] = params
+    L = args_dict.pop('L')
+    N = args_dict.pop('N')
+    w0 = args_dict.pop('w0')
 
     return args_dict
     
@@ -50,9 +56,11 @@ def parse_config_file():
     
     for (key, val) in config.items('PARAMS'):
         params.append(float(val))
-
-    lr = config['CONFIGURATION'].getfloat('lr')
-    max_iter = config['CONFIGURATION'].getint('max_iter')
+    w0 = config['TWO-PARTICLE'].getint('w0')
+    lr = config['NUMERICS'].getfloat('lr')
+    max_iter = config['NUMERICS'].getint('max_iter')
+    L = config['NUMERICS'].getint('L')
+    N = config['NUMERICS'].getint('N')
     plot = config['CONFIGURATION'].getboolean('plot')
     func = config['CONFIGURATION']['function']
     num_particles = config['CONFIGURATION'].getint('num_particles')
@@ -60,8 +68,11 @@ def parse_config_file():
 
     args = {
         'params':params,
+        'w0':w0,
         'lr':lr, 
-        'max_iter':max_iter, 
+        'max_iter':max_iter,
+        'L':L,
+        'N':N,
         'plot': plot,
         'func':func, 
         'num_particles':num_particles,

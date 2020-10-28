@@ -20,10 +20,9 @@ def one_particle_estimation(args):
     func = args['func']
     print_plot = args['plot']
     interactive_mode = args['interactive']
+    L = args['L']
+    N = args['N']
 
-    # Constants
-    L = 20 # Length of interval
-    N = 500 # No. of subintervals
     h = L / N # Stepsize
 
     # Argument vector
@@ -76,20 +75,20 @@ def two_particle_estimation(args):
     assert len(args['params']) == 2, 'Two particle estimation only works with two parameters!'
 
     x0, a = args['params']
+    w0 = args['w0']
     max_iter = args['max_iter']
     lr = args['lr']
     func = args['func']
     print_plot = args['plot']
-
-    # Constants
-    L = 20 # Length of interval
-    N = 500 # No. of subintervals
+    L = args['L']
+    N = args['N']
+    
     h = L / N # Stepsize
 
     # Argument vector
     xi= np.linspace(-L/2, L/2, N)
 
-    W = physics2.create_w_matrix(xi, w0 = 0)
+    W = physics2.create_w_matrix(xi, w0)
     fdm = physics.create_2nd_order_finite_difference_scheme(N, h)
     H = physics2.create_H_matrix(fdm, xi)
 
