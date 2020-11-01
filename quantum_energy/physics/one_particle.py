@@ -11,7 +11,8 @@ def most_accurate_e(finite_difference_matrix, v_vector):
 
 def get_v_vector(x, func, k = 1):
     if (func == 'func1'):
-        return np.array(k*x**2/2).reshape(-1, 1)
+        #return np.array(k*x**2/2).reshape(-1, 1)
+        return np.array(1 - np.exp(-x**2/2))
     elif (func == 'func2'):
         return np.array(1 - np.exp(-((1/2)*k*x**2))).reshape(-1, 1)
 
