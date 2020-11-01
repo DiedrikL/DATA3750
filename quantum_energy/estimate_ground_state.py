@@ -80,6 +80,7 @@ def two_particle_estimation(args):
     lr = args['lr']
     func = args['func']
     print_plot = args['plot']
+    interactive_mode = args['interactive']
     L = args['L']
     N = args['N']
     
@@ -93,16 +94,16 @@ def two_particle_estimation(args):
     H = physics2.create_H_matrix(fdm, xi)
 
     # Calculates energy at inital guess
-    initial_energy = physics2.calculate_e(x0, a, xi, H, W)
+    initial_energy = physics2.calculate_e(x0, a, xi, W, H)
 
     # Running gradient descent
-    new_params, _gradient_path_, iterations_used = optimization2.gradient_descent(
+    new_params, gradient_path, iterations_used = optimization2.gradient_descent(
         x0, a, max_iterations=max_iter, lr=lr, plot=print_plot, H = H, W = W, xi = xi)
 
     # Calculates energy after gradient descent
     params = [x0, a]
     new_x0, new_a = new_params
-    new_energy = physics2.calculate_e(new_x0, new_a, xi, H, W)
+    new_energy = physics2.calculate_e(new_x0, new_a, xi, W, H)
 
     # E, u = physics.most_accurate_e(finite_difference_matrix, v_vector)
 
@@ -111,7 +112,22 @@ def two_particle_estimation(args):
     if (print_plot):
 
         plots.plot_psi_matrix(params, new_params, xi)
+        _, ax = plots.two_particle_gradient_path(gradient_path, h, L, W, H, xi, not interactive_mode)
+        if interactive_mode:
+                while True:
+                    plot_again = input('\nDo you want to plot another path? y/n: ')
 
+                    if plot_again.lower() == 'y':
+                        print('Choose parameters to initialize gradient descent:\n')
+                        x0 = float(input('Initial guess for x0: '))
+                        a = float(input('Initial guess for a/sigma: '))
+
+                        _, gradient_path, _= optimization2.gradient_descent(x0, a, max_iterations=max_iter, lr=lr, plot=True, H = H, W = W, xi = xi)
+
+                        plots.plot_new_path(ax, gradient_path)
+
+                    else:
+                        break
 
 def run(args, num_particles):
     assert num_particles in [1,2]

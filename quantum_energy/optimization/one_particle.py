@@ -31,7 +31,7 @@ def gradient_descent(params, max_iterations, lr, plot, finite_difference_matrix,
             lr = lr/2
         else:
             params, e =  new_params, new_e # updates the variables with the new values
-            test = round (1/lr)
+            test = round(1/lr)
             if (used_iterations % test == 0) and plot:
                 add_plot(new_params, new_e)
         
