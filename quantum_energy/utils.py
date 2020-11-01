@@ -40,9 +40,6 @@ def gather_params_in_list(args):
     if b:
         params.append(b)
     args_dict['params'] = params
-    L = args_dict.pop('L')
-    N = args_dict.pop('N')
-    w0 = args_dict.pop('w0')
 
     return args_dict
     
