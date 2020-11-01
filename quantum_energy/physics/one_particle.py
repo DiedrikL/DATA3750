@@ -2,6 +2,7 @@
 import numpy as np
 import matplotlib.pyplot as plt
 
+
 def most_accurate_e(finite_difference_matrix, v_vector):
     H = -1/2*(finite_difference_matrix) + (np.diagflat(v_vector))
     E, u = np.linalg.eig(H)
@@ -49,21 +50,3 @@ def compute_e(params, h, finite_difference_matrix, v_vector, xi):
     e = h*(psi_vector.T @ h_psi) / (h*(psi_vector.T @ psi_vector))
     return e[0][0]
 
-def partial_difference_quotient(params, i, dx, finite_difference_matrix, v_vector, xi):
-    """
-    This function calculates the central partial difference quotient approximation with respect to the ith parameter.
-    
-    Argument:
-    params -- List of the functions parameters
-    i -- ith paramer
-    dx -- step length
-    
-    Returns:
-    d_e -- A scalar, the central partial difference quotient approximation.
-    """
-    
-    plus_dx = [param + (dx if j == i else 0) for j, param in enumerate(params)]
-    minus_dx = [param - (dx if j == i else 0) for j, param in enumerate(params)]
-    
-    d_e = (compute_e(plus_dx, dx, finite_difference_matrix, v_vector, xi) - compute_e(minus_dx, dx, finite_difference_matrix, v_vector, xi))/(2*dx)
-    return d_e
