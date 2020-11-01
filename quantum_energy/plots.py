@@ -13,7 +13,7 @@ def create_plot_axes(x_min, x_max, x_step, y_min, y_max, y_step, e_func, e_args)
     X, Y = np.meshgrid(X, Y)
     return X, Y, E
 
-def two_particle_gradient_path(gradient_path, h, L, W, H, xi, block_plot):
+def two_particle_gradient_path(gradient_path, L, h, W, H, xi, block_plot):
     fig = plt.figure(figsize=(10,8))
     ax = fig.add_subplot(111, projection='3d')
 

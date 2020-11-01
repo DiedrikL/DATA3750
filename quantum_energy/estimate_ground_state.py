@@ -95,7 +95,7 @@ def two_particle_estimation(args):
     if (print_plot):
 
         plots.plot_psi_matrix(params, new_params, xi)
-        _, ax = plots.two_particle_gradient_path(gradient_path, h, L, W, H, xi, not interactive_mode)
+        _, ax = plots.two_particle_gradient_path(gradient_path, L, h, W, H, xi, not interactive_mode)
 
         if interactive_mode:
             plots.interactive_plot(ax=ax, gd_func=optimization2.gradient_descent, gd_args=[max_iter, lr, True, H, W, xi])
