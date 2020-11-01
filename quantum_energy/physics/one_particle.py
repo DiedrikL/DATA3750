@@ -65,5 +65,5 @@ def partial_difference_quotient(params, i, dx, finite_difference_matrix, v_vecto
     plus_dx = [param + (dx if j == i else 0) for j, param in enumerate(params)]
     minus_dx = [param - (dx if j == i else 0) for j, param in enumerate(params)]
     
-    d_e = (compute_e(plus_dx, dx, finite_difference_matrix, v_vector, xi) - compute_e(minus_dx, dx, finite_difference_matrix, v_vector, xi))/2*dx
+    d_e = (compute_e(plus_dx, dx, finite_difference_matrix, v_vector, xi) - compute_e(minus_dx, dx, finite_difference_matrix, v_vector, xi))/(2*dx)
     return d_e
