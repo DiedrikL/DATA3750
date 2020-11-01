@@ -3,20 +3,13 @@ import matplotlib.pyplot as plt
 from quantum_energy.physics.one_particle import psi_func, compute_e
 from quantum_energy.physics.two_particles import create_psi_matrix, calculate_e
 
-def create_plot_axes(x_min, x_max, x_step, y_min, y_max, y_step, h, finite_difference_matrix, v_vector, xi):
+def create_plot_axes(x_min, x_max, x_step, y_min, y_max, y_step, e_func, e_args):
     """Creating surface for plotting"""
 
     X = np.arange(x_min, x_max, x_step)
     Y = np.arange(y_min, y_max, y_step)
-    E = np.array([[compute_e([x, y], h, finite_difference_matrix, v_vector, xi) for y in Y] for x in X])
-    X, Y = np.meshgrid(X, Y)
-    return X, Y, E
-
-def two_particle_plot_axes(x_min, x_max, x_step, y_min, y_max, y_step, H, W, xi):
-    X = np.arange(x_min, x_max, x_step)
-    Y = np.arange(y_min, y_max, y_step)
-    print('Drawing surface plot. This might take a while.')
-    E = np.array([[calculate_e(x, y, xi, W, H) for y in Y] for x in X])
+    print('Drawing surface plot. This might take a while...')
+    E = np.array([[e_func([x, y], *e_args) for y in Y] for x in X])
     X, Y = np.meshgrid(X, Y)
     return X, Y, E
 
@@ -25,7 +18,7 @@ def two_particle_gradient_path(gradient_path, h, L, W, H, xi, block_plot):
     ax = fig.add_subplot(111, projection='3d')
 
     # Surface plot
-    X, Y, E = two_particle_plot_axes(-L/2, L/2, h*10, 0.2, 5, 0.1, H, W, xi) 
+    X, Y, E = create_plot_axes(-L/2, L/2, h*10, 0.2, 5, 0.1, calculate_e, [xi, W, H]) 
     ax.plot_surface(X, Y, Z=E.T, rstride=1, cstride=1, cmap='viridis', alpha = 0.6)
 
     # Path
@@ -80,7 +73,7 @@ def plot_gradient_descent(gradient_path, L, h, finite_difference_matrix, v_vecto
     ax = fig.add_subplot(111, projection='3d')
 
     # Surface plot
-    X, Y, E = create_plot_axes(-L/3, L/3, h*10, 0.2, 5, 0.1, h, finite_difference_matrix, v_vector, xi) 
+    X, Y, E = create_plot_axes(-L/3, L/3, h*10, 0.2, 5, 0.1, compute_e, [h, finite_difference_matrix, v_vector, xi]) 
     ax.plot_surface(X, Y, Z=E.T, rstride=1, cstride=1, cmap='viridis', alpha = 0.6)
 
     # Path

@@ -28,7 +28,8 @@ def create_phi_matrix(W, H, psi):
 
     return H @ psi + psi @ H + W * psi
 
-def calculate_e(x0, a, xi, W, H):
+def calculate_e(params, xi, W, H):
+    x0, a = params
 
     psi = create_psi_matrix(x0, a, xi)
     phi = create_phi_matrix(W, H, psi)
@@ -52,5 +53,5 @@ def partial_difference_quotient2(params, i, dx, xi, H, W):
     x0_minus, a_minus = [param - (dx if j == i else 0) for j, param in enumerate(params)]
     
 
-    d_e = (calculate_e(x0_pluss, a_pluss, xi, W, H) - calculate_e(x0_minus, a_minus, xi, W, H))/2*dx
+    d_e = (calculate_e([x0_pluss, a_pluss], xi, W, H) - calculate_e([x0_minus, a_minus], xi, W, H))/2*dx
     return d_e

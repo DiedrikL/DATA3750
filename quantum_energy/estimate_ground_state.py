@@ -59,7 +59,7 @@ def two_particle_estimation(args):
     # Unpacking input variables
     assert len(args['params']) == 2, 'Two particle estimation only works with two parameters!'
 
-    x0, a = args['params']
+    params = args['params']
     w0 = args['w0']
     max_iter = args['max_iter']
     lr = args['lr']
@@ -79,16 +79,14 @@ def two_particle_estimation(args):
     H = physics2.create_H_matrix(fdm, xi)
 
     # Calculates energy at inital guess
-    initial_energy = physics2.calculate_e(x0, a, xi, W, H)
+    initial_energy = physics2.calculate_e(params, xi, W, H)
 
     # Running gradient descent
     new_params, gradient_path, iterations_used = optimization2.gradient_descent(
-        [x0, a], max_iterations=max_iter, lr=lr, plot=print_plot, H = H, W = W, xi = xi)
+        params, max_iterations=max_iter, lr=lr, plot=print_plot, H = H, W = W, xi = xi)
 
     # Calculates energy after gradient descent
-    params = [x0, a]
-    new_x0, new_a = new_params
-    new_energy = physics2.calculate_e(new_x0, new_a, xi, W, H)
+    new_energy = physics2.calculate_e(new_params, xi, W, H)
 
     # E, u = physics.most_accurate_e(finite_difference_matrix, v_vector)
 
