@@ -3,45 +3,15 @@ import matplotlib.pyplot as plt
 from quantum_energy.physics.one_particle import psi_func, compute_e
 from quantum_energy.physics.two_particles import create_psi_matrix, calculate_e
 
-def create_plot_axes(x_min, x_max, x_step, y_min, y_max, y_step, h, finite_difference_matrix, v_vector, xi):
+def create_plot_axes(x_min, x_max, x_step, y_min, y_max, y_step, e_func, e_args):
     """Creating surface for plotting"""
 
     X = np.arange(x_min, x_max, x_step)
     Y = np.arange(y_min, y_max, y_step)
-    E = np.array([[compute_e([x, y], h, finite_difference_matrix, v_vector, xi) for y in Y] for x in X])
+    print('Drawing surface plot. This might take a while...')
+    E = np.array([[e_func([x, y], *e_args) for y in Y] for x in X])
     X, Y = np.meshgrid(X, Y)
     return X, Y, E
-
-def two_particle_plot_axes(x_min, x_max, x_step, y_min, y_max, y_step, H, W, xi):
-    X = np.arange(x_min, x_max, x_step)
-    Y = np.arange(y_min, y_max, y_step)
-    print('Drawing surface plot. This might take a while.')
-    E = np.array([[calculate_e(x, y, xi, W, H) for y in Y] for x in X])
-    X, Y = np.meshgrid(X, Y)
-    return X, Y, E
-
-def two_particle_gradient_path(gradient_path, h, L, W, H, xi, block_plot):
-    fig = plt.figure(figsize=(10,8))
-    ax = fig.add_subplot(111, projection='3d')
-
-    # Surface plot
-    X, Y, E = two_particle_plot_axes(-L/2, L/2, h*10, 0.2, 5, 0.1, H, W, xi) 
-    ax.plot_surface(X, Y, Z=E.T, rstride=1, cstride=1, cmap='viridis', alpha = 0.6)
-
-    # Path
-    gradient_path = np.array(gradient_path) # transforms into a numpy array
-    ax.plot(gradient_path[::1,0], gradient_path[::1,1], gradient_path[::1,2], 'bx-', label='path')
-    ax.plot(gradient_path[-1:,0], gradient_path[-1:,1], gradient_path[-1:,2], markerfacecolor='r', marker='o', markersize=5, label='endpoint')
-
-    # Labeling
-    ax.set_title('Energy(x0, a)', fontsize=20)
-    ax.set_xlabel('x', fontsize=15)
-    ax.set_ylabel('a', fontsize=15)
-    ax.set_zlabel('e', fontsize=15)
-    ax.view_init(elev=35, azim=300)
-    fig.legend(loc='upper left')
-    plt.show(block = block_plot)
-    return (fig,ax)
 
 def plot_psi_matrix(guess_params, new_params, xi):
 
@@ -75,12 +45,12 @@ def plot_psi_matrix(guess_params, new_params, xi):
     
 
 
-def plot_gradient_descent(gradient_path, L, h, finite_difference_matrix, v_vector, xi, block_plot):
+def plot_gradient_descent(gradient_path, L, h, e_func, e_func_args, block_plot):
     fig = plt.figure(figsize=(10,8))
     ax = fig.add_subplot(111, projection='3d')
 
     # Surface plot
-    X, Y, E = create_plot_axes(-L/3, L/3, h*10, 0.2, 5, 0.1, h, finite_difference_matrix, v_vector, xi) 
+    X, Y, E = create_plot_axes(-L/3, L/3, h*10, 0.2, 5, 0.1, e_func, e_func_args) 
     ax.plot_surface(X, Y, Z=E.T, rstride=1, cstride=1, cmap='viridis', alpha = 0.6)
 
     # Path
