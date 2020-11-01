@@ -49,7 +49,7 @@ def one_particle_estimation(args):
     if (print_plot):
         plots.plot_wave_functions(old_params = params, new_params = new_params, xi=xi, u=u, h=h)
         if len(params) == 2:
-            _, ax = plots.plot_gradient_descent(gradient_path, L, h, finite_difference_matrix, v_vector, xi, not interactive_mode)
+            _, ax = plots.plot_gradient_descent(gradient_path, L, h, e_func = physics.compute_e, e_func_args=[h, finite_difference_matrix, v_vector, xi], block_plot = not interactive_mode)
             if interactive_mode:
                 plots.interactive_plot(ax=ax, gd_func=optimization.gradient_descent, gd_args=[max_iter, lr, True, finite_difference_matrix, v_vector, xi])
                 
@@ -95,7 +95,7 @@ def two_particle_estimation(args):
     if (print_plot):
 
         plots.plot_psi_matrix(params, new_params, xi)
-        _, ax = plots.two_particle_gradient_path(gradient_path, L, h, W, H, xi, not interactive_mode)
+        _, ax = plots.plot_gradient_descent(gradient_path, L, h, e_func = physics2.calculate_e, e_func_args = [xi, W, H], block_plot = not interactive_mode )
 
         if interactive_mode:
             plots.interactive_plot(ax=ax, gd_func=optimization2.gradient_descent, gd_args=[max_iter, lr, True, H, W, xi])
