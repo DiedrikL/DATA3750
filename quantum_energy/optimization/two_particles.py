@@ -7,11 +7,11 @@ def gradient_step(params, lr, xi, H, W):
         new_params.append(new_value)
     return new_params
 
-def gradient_descent(x0, a, max_iterations, lr, plot, H, W, xi):
+def gradient_descent(params, max_iterations, lr, plot, H, W, xi):
     used_iterations = 0
+    x0, a = params
     e = physics2.calculate_e(x0, a, xi, W, H) # Initial calculation of energy level
     gradient_path = []
-    params = [x0, a]
 
     def print_status():
         print(f"Iterations: {used_iterations}/{max_iterations}", end ="\r")

@@ -51,23 +51,8 @@ def one_particle_estimation(args):
         if len(params) == 2:
             _, ax = plots.plot_gradient_descent(gradient_path, L, h, finite_difference_matrix, v_vector, xi, not interactive_mode)
             if interactive_mode:
-                while True:
-                    plot_again = input('\nDo you want to plot another path? y/n: ')
-
-                    if plot_again.lower() == 'y':
-                        print('Choose parameters to initialize gradient descent:\n')
-                        x0 = float(input('Initial guess for x0: '))
-                        a = float(input('Initial guess for a/sigma: '))
-
-                        _, gradient_path, _= optimization.gradient_descent(
-                            params=[x0, a], max_iterations=max_iter, lr=lr, plot=True,
-                            finite_difference_matrix=finite_difference_matrix, v_vector=v_vector, xi=xi
-                            )
-
-                        plots.plot_new_path(ax, gradient_path)
-
-                    else:
-                        break
+                plots.interactive_plot(ax=ax, gd_func=optimization.gradient_descent, gd_args=[max_iter, lr, True, finite_difference_matrix, v_vector, xi])
+                
 
 
 def two_particle_estimation(args):
@@ -98,7 +83,7 @@ def two_particle_estimation(args):
 
     # Running gradient descent
     new_params, gradient_path, iterations_used = optimization2.gradient_descent(
-        x0, a, max_iterations=max_iter, lr=lr, plot=print_plot, H = H, W = W, xi = xi)
+        [x0, a], max_iterations=max_iter, lr=lr, plot=print_plot, H = H, W = W, xi = xi)
 
     # Calculates energy after gradient descent
     params = [x0, a]
@@ -113,21 +98,10 @@ def two_particle_estimation(args):
 
         plots.plot_psi_matrix(params, new_params, xi)
         _, ax = plots.two_particle_gradient_path(gradient_path, h, L, W, H, xi, not interactive_mode)
+
         if interactive_mode:
-                while True:
-                    plot_again = input('\nDo you want to plot another path? y/n: ')
-
-                    if plot_again.lower() == 'y':
-                        print('Choose parameters to initialize gradient descent:\n')
-                        x0 = float(input('Initial guess for x0: '))
-                        a = float(input('Initial guess for a/sigma: '))
-
-                        _, gradient_path, _= optimization2.gradient_descent(x0, a, max_iterations=max_iter, lr=lr, plot=True, H = H, W = W, xi = xi)
-
-                        plots.plot_new_path(ax, gradient_path)
-
-                    else:
-                        break
+            plots.interactive_plot(ax=ax, gd_func=optimization2.gradient_descent, gd_args=[max_iter, lr, True, H, W, xi])
+            
 
 def run(args, num_particles):
     assert num_particles in [1,2]

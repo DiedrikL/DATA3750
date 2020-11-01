@@ -122,6 +122,22 @@ def plot_wave_functions(old_params, new_params, xi, u , h):
     plt.legend()
     plt.show()
 
+def interactive_plot(ax, gd_func, gd_args):
+    while True:
+        plot_again = input('\nDo you want to plot another path? y/n: ')
+
+        if plot_again.lower() == 'y':
+            print('Choose parameters to initialize gradient descent:\n')
+            x0 = float(input('Initial guess for x0: '))
+            a = float(input('Initial guess for a/sigma: '))
+
+            _, gradient_path, _= gd_func([x0, a], *gd_args)
+
+            plot_new_path(ax, gradient_path)
+
+        else:
+            break
+
 def norm_vector(vector, h):
     return h*(vector.T @ vector)
 
