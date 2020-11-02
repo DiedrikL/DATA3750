@@ -5,11 +5,12 @@
 
 #Importing libraries
 import numpy as np
+
 import quantum_energy.physics.one_particle as physics
-import quantum_energy.plots as plots
-import quantum_energy.optimization.one_particle as optimization
 import quantum_energy.physics.two_particles as physics2
-import quantum_energy.optimization.two_particles as optimization2
+import quantum_energy.plots as plots
+import quantum_energy.optimization as optimization
+
 
 def one_particle_estimation(args):
     # Unpacking input variables
@@ -35,8 +36,8 @@ def one_particle_estimation(args):
 
     # Running gradient descent
     new_params, gradient_path, iterations_used = optimization.gradient_descent(
-        params=params, max_iterations=max_iter, lr=lr, plot=print_plot,
-        finite_difference_matrix=finite_difference_matrix, v_vector=v_vector, xi=xi
+        params=params, max_iterations=max_iter, plot=print_plot, lr=lr, func=physics.compute_e,
+        func_args=[lr, finite_difference_matrix, v_vector, xi]
         )
 
     # Calculates energy after gradient descent
@@ -44,14 +45,14 @@ def one_particle_estimation(args):
 
     E, u = physics.most_accurate_e(finite_difference_matrix, v_vector)
 
-    optimization.print_estimate(params, new_params, initial_energy, new_energy, E, u, iterations_used, max_iter)
+    optimization.print_estimate(params, new_params, initial_energy, new_energy, iterations_used, max_iter, E)
 
     if (print_plot):
         plots.plot_wave_functions(old_params = params, new_params = new_params, xi=xi, u=u, h=h)
         if len(params) == 2:
             _, ax = plots.plot_gradient_descent(gradient_path, L, h, e_func = physics.compute_e, e_func_args=[h, finite_difference_matrix, v_vector, xi], block_plot = not interactive_mode)
             if interactive_mode:
-                plots.interactive_plot(ax=ax, gd_func=optimization.gradient_descent, gd_args=[max_iter, lr, True, finite_difference_matrix, v_vector, xi])
+                plots.interactive_plot(ax=ax, gd_args=[max_iter, True, lr, physics.compute_e, [lr, finite_difference_matrix, v_vector, xi]])
                 
 
 
@@ -82,23 +83,21 @@ def two_particle_estimation(args):
     initial_energy = physics2.calculate_e(params, xi, W, H)
 
     # Running gradient descent
-    new_params, gradient_path, iterations_used = optimization2.gradient_descent(
-        params, max_iterations=max_iter, lr=lr, plot=print_plot, H = H, W = W, xi = xi)
+    new_params, gradient_path, iterations_used = optimization.gradient_descent(
+        params, max_iterations=max_iter, plot=print_plot, lr=lr, func=physics2.calculate_e, func_args=[xi, W, H])
 
     # Calculates energy after gradient descent
     new_energy = physics2.calculate_e(new_params, xi, W, H)
 
     # E, u = physics.most_accurate_e(finite_difference_matrix, v_vector)
 
-    optimization2.print_estimate(params, new_params, initial_energy, new_energy, iterations_used, max_iter)
+    optimization.print_estimate(params, new_params, initial_energy, new_energy, iterations_used, max_iter, None)
 
     if (print_plot):
-
         plots.plot_psi_matrix(params, new_params, xi)
         _, ax = plots.plot_gradient_descent(gradient_path, L, h, e_func = physics2.calculate_e, e_func_args = [xi, W, H], block_plot = not interactive_mode )
-
         if interactive_mode:
-            plots.interactive_plot(ax=ax, gd_func=optimization2.gradient_descent, gd_args=[max_iter, lr, True, H, W, xi])
+            plots.interactive_plot(ax=ax, gd_args=[max_iter, True, lr, physics2.calculate_e,  [xi, W, H]])
             
 
 def run(args, num_particles):

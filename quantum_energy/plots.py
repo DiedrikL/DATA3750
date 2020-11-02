@@ -1,7 +1,10 @@
 import numpy as np
 import matplotlib.pyplot as plt
+
 from quantum_energy.physics.one_particle import psi_func, compute_e
 from quantum_energy.physics.two_particles import create_psi_matrix, calculate_e
+from quantum_energy.optimization import gradient_descent
+
 
 def create_plot_axes(x_min, x_max, x_step, y_min, y_max, y_step, e_func, e_args):
     """Creating surface for plotting"""
@@ -92,7 +95,7 @@ def plot_wave_functions(old_params, new_params, xi, u , h):
     plt.legend()
     plt.show()
 
-def interactive_plot(ax, gd_func, gd_args):
+def interactive_plot(ax, gd_args):
     while True:
         plot_again = input('\nDo you want to plot another path? y/n: ')
 
@@ -101,7 +104,7 @@ def interactive_plot(ax, gd_func, gd_args):
             x0 = float(input('Initial guess for x0: '))
             a = float(input('Initial guess for a/sigma: '))
 
-            _, gradient_path, _= gd_func([x0, a], *gd_args)
+            _, gradient_path, _= gradient_descent([x0, a], *gd_args)
 
             plot_new_path(ax, gradient_path)
 
