@@ -1,6 +1,3 @@
-
-import math
-
 from quantum_energy.physics.one_particle import compute_e
 from quantum_energy.physics.two_particles import calculate_e
 
@@ -21,12 +18,21 @@ def gradient_descent(params, max_iterations, plot, lr, func, func_args):
         one_step = params_plot.copy()
         one_step.append(e_plot)
         gradient_path.append(one_step)
+    
+    def print_status():
+        print(f"Iterations: {used_iterations}/{max_iterations}", end ="\r")
 
     add_plot(params, e)
+
     
     while (used_iterations < max_iterations): # Breaks loop if maximum iterations is reached
         new_params = gradient_step(params, lr, func, func_args) # New values for parameters
         new_e = func(new_params, *func_args) # New value for energy level
+
+        print_status()
+
+        if used_iterations % (max_iterations // 10) == 0:
+            print(new_e)
             
         if lr < 0.005: 
             if plot:
