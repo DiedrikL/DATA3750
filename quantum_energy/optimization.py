@@ -1,4 +1,6 @@
 
+import math
+
 from quantum_energy.physics.one_particle import compute_e
 from quantum_energy.physics.two_particles import calculate_e
 
@@ -64,6 +66,8 @@ def print_estimate(old_params, new_params, initial_energy, energy_estimate, iter
     print(f"New energy: {energy_estimate}")
     if E:
         print(f"Most accurate answer: {E}")
+        error = round(abs(E-energy_estimate)/E*100, 4)
+        print(f'Percentage error: {error} %')
     print(f"Used {iterations_used} out of {max_iter} iterations")
     print('************************************************************')
 
