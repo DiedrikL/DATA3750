@@ -80,6 +80,18 @@ def gradient_descent(params, max_iterations, plot, lr, func, func_args):
     return params, gradient_path, used_iterations
 
 def print_estimate(old_params, new_params, initial_energy, energy_estimate, iterations_used, max_iter, E):
+    """
+    Prints estimates after minimizing the energy-function.
+
+    Arguments:
+    old_params -- parameters
+    new_params -- updated parameters after minimization with gradient descent
+    initial_energy -- energy at guess 'old_params'
+    energy_estimate -- energy at updated parameters 'new_params'
+    iterations_used -- number of iterations in gradient descent
+    max_iter -- maximum number of iterations in gradient descent
+    E -- true value of energy. Only applicable for one-particle systems.
+    """
     if len(old_params) == 2:
         x0, a = old_params
         new_x0, new_a = new_params
