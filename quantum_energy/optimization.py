@@ -3,10 +3,9 @@ from quantum_energy.physics.two_particles import calculate_e
 
 
 def gradient_step(params, lr, func, func_args):
-    
     """
     This function updates the values of each parameter in 'params' by taking one step of size 'lr'
-    in the direction of steepest descent for 'func'.
+    in the direction of steepest descent for (energy) function 'func'.
     
     Arguments:
     params -- list of parameters to differentiate 'func' with respect to
@@ -17,7 +16,6 @@ def gradient_step(params, lr, func, func_args):
     Returns:
     new_params -- A list with updated parameter values after one step in the direction of steepest descent.
     """
-
     new_params = []
     for i, param in enumerate(params):
         new_value = param - lr * partial_difference_quotient(params, i, lr, func = func, func_args = func_args)
@@ -25,6 +23,22 @@ def gradient_step(params, lr, func, func_args):
     return new_params
 
 def gradient_descent(params, max_iterations, plot, lr, func, func_args):
+    """
+    Implementation of gradient descent.
+    
+    Arguments:
+    params -- list of parameters to differentiate 'func' with respect to
+    max_iterations -- maximum number of iterations before break
+    plot -- boolean for plotting the path of gradient descent
+    lr -- learning rate/step size
+    func -- function to minimize
+    func_args -- arguments passed to 'func'
+    
+    Returns:
+    params -- a list with updated parameter values after one step in the direction of steepest descent.
+    gradient_path -- a list of points representing the path of gradient descent
+    used_iterations -- number of iterations used
+    """
     used_iterations = 0
     e = func(params, *func_args) # Initial calculation of energy level
     gradient_path = []
