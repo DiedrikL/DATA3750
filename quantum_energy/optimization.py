@@ -3,6 +3,21 @@ from quantum_energy.physics.two_particles import calculate_e
 
 
 def gradient_step(params, lr, func, func_args):
+    
+    """
+    This function updates the values of each parameter in 'params' by taking one step of size 'lr'
+    in the direction of steepest descent for 'func'.
+    
+    Arguments:
+    params -- list of parameters to differentiate 'func' with respect to
+    lr -- learning rate/step length
+    func -- function to differentiate
+    func_args -- args passed to func
+    
+    Returns:
+    new_params -- A list with updated parameter values after one step in the direction of steepest descent.
+    """
+
     new_params = []
     for i, param in enumerate(params):
         new_value = param - lr * partial_difference_quotient(params, i, lr, func = func, func_args = func_args)
@@ -84,7 +99,7 @@ def partial_difference_quotient(params, i, dx, func, func_args):
     
     Arguments:
     params -- List of the functions parameters
-    i -- ith paramer
+    i -- ith parameter
     dx -- step length
     func -- function to differentiate
     func_args -- args passed to func
