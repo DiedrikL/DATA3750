@@ -11,7 +11,7 @@ def gradient_step(params, lr, func, func_args):
     params -- list of parameters to differentiate 'func' with respect to
     lr -- learning rate/step length
     func -- function to differentiate
-    func_args -- args passed to func
+    func_args -- list of args passed to func
     
     Returns:
     new_params -- A list with updated parameter values after one step in the direction of steepest descent.
@@ -32,7 +32,7 @@ def gradient_descent(params, max_iterations, plot, lr, func, func_args):
     plot -- boolean for plotting the path of gradient descent
     lr -- learning rate/step size
     func -- function to minimize
-    func_args -- arguments passed to 'func'
+    func_args -- list of arguments passed to 'func'
     
     Returns:
     params -- a list with updated parameter values after one step in the direction of steepest descent.
@@ -84,8 +84,8 @@ def print_estimate(old_params, new_params, initial_energy, energy_estimate, iter
     Prints estimates after minimizing the energy-function.
 
     Arguments:
-    old_params -- parameters
-    new_params -- updated parameters after minimization with gradient descent
+    old_params -- list of parameters
+    new_params -- list of updated parameters after minimization with gradient descent
     initial_energy -- energy at guess 'old_params'
     energy_estimate -- energy at updated parameters 'new_params'
     iterations_used -- number of iterations in gradient descent
@@ -124,11 +124,11 @@ def partial_difference_quotient(params, i, dx, func, func_args):
     This function calculates the central partial difference quotient approximation with respect to the ith parameter.
     
     Arguments:
-    params -- List of the functions parameters
+    params -- list of the functions parameters
     i -- ith parameter
     dx -- step length
     func -- function to differentiate
-    func_args -- args passed to func
+    func_args -- list of arguments passed to func
     
     Returns:
     d_e -- A scalar, the central partial difference quotient approximation.
