@@ -28,21 +28,27 @@ def plot_psi_matrix(guess_params, new_params, xi):
     psi_guess =  create_psi_matrix(guess_x0, guess_a, xi)
     psi_guess_norm = psi_guess/np.sqrt(norm_matrix(psi_guess, step_size))
 
-    ax.plot_surface(X, Y, Z=psi_guess_norm, rstride=10, cstride=10, cmap='viridis',alpha = 0.5, label = 'psi_old')
+    surface = ax.plot_surface(X, Y, Z=psi_guess_norm, rstride=10, cstride=10, cmap='plasma',alpha = 0.5, label = 'psi_old')
+    surface._facecolors2d=surface._facecolors3d
+    surface._edgecolors2d=surface._edgecolors3d
 
     x0, a = new_params
     psi_new =  create_psi_matrix(x0, a, xi)
     psi_new_norm = psi_new/np.sqrt(norm_matrix(psi_new, step_size))
 
-    ax.plot_surface(X, Y, Z=psi_new_norm,rstride=10, cstride=10, cmap='coolwarm',alpha = 0.8, label = 'psi_new')
-    
+    surface = ax.plot_surface(X, Y, Z=psi_new_norm,rstride=10, cstride=10, cmap='viridis',alpha = 0.8, label = 'psi_new')
+    surface._facecolors2d=surface._facecolors3d
+    surface._edgecolors2d=surface._edgecolors3d
 
     ax.set_title('Psi(x0, a)', fontsize=20)
-    ax.set_xlabel('x_1', fontsize=15)
-    ax.set_ylabel('x_2', fontsize=15)
+    ax.set_xlabel(r'${x_1}$', fontsize=15)
+    ax.set_ylabel(r'${x_2}$', fontsize=15)
     ax.set_zlabel('psi', fontsize=15)
     ax.view_init(elev=35, azim=300)
-    #plt.legend(loc='upper left')
+    ax.legend(loc='upper left')
+    leg = ax.get_legend()
+    leg.legendHandles[0].set_color('salmon')
+    leg.legendHandles[1].set_color('lawngreen') #psi_new
 
     plt.show()
     
@@ -63,7 +69,7 @@ def plot_gradient_descent(gradient_path, L, h, e_func, e_func_args, block_plot):
 
     # Labeling
     ax.set_title('Energy(x0, a)', fontsize=20)
-    ax.set_xlabel('x', fontsize=15)
+    ax.set_xlabel(r'${x_0}$', fontsize=15)
     ax.set_ylabel('a', fontsize=15)
     ax.set_zlabel('e', fontsize=15)
     ax.view_init(elev=35, azim=300)
