@@ -75,7 +75,6 @@ def plot_psi_matrix(guess_params, new_params, xi):
     
 
 def plot_gradient_descent(gradient_path, L, h, e_func, e_func_args, block_plot):
-
     """
     Plots surface plot of energy function 'e_func' along with the path taken
     by gradient descent.
@@ -126,7 +125,8 @@ def plot_new_path(ax, gradient_path):
 
 def plot_wave_functions(old_params, new_params, xi, u , h):
     """
-    Plots three wavefunctions on a single plot.
+    Plots test-function before and after gradient descent
+    and the 'true' wavefunction on a single plot.
 
     Arguments:
     old_params -- list of params before gradient descent
