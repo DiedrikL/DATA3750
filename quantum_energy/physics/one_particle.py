@@ -1,4 +1,3 @@
-#Importing libraries
 import numpy as np
 import matplotlib.pyplot as plt
 
@@ -42,11 +41,24 @@ def create_2nd_order_finite_difference_scheme(N, h):
     return m
 
 def compute_e(params, h, finite_difference_matrix, v_vector, xi):
-    """Evaluate and returns the energy at the given point"""
+    """
+    Evaluate and returns the energy at the given point.
+
+    Arguments:
+    params -- list of wavefunction parameters
+    h -- step size
+    finite_difference_matrix -- matrix representation of a second order central finite difference scheme
+    v_vector -- vector representation of the potential term in the hamiltonian
+    xi -- list of x-values
+
+    Returns:
+    e -- scalar value of the energy
+    """
     psi_vector = create_psi_vector(xi, params)
 
     h_psi = -1/2*(finite_difference_matrix @ psi_vector) + (v_vector * psi_vector)
      
     e = h*(psi_vector.T @ h_psi) / (h*(psi_vector.T @ psi_vector))
+    
     return e[0][0]
 

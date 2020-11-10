@@ -6,6 +6,13 @@ import sys
 CONFIG_FILE = os.path.join(os.path.dirname(__file__), 'config.ini')
 
 def parse_cli_arguments():
+    """
+    This function parses command line arguments as an alternative 
+    to running the script with config.ini.
+
+    Returns:
+    args_dict -- dictionary of command line arguments
+    """
     parser = argparse.ArgumentParser(description='A script that estimates the energy of a quantum physical two body system by implementing gradient descent')
     parser.add_argument('-x0', type=float, default=1.0, metavar='x0',help='initial value for x', required=False)
     parser.add_argument('-a', type=float, default=1.0, metavar='a',help='initial value for a (sigma)', required=False)
@@ -32,6 +39,16 @@ def parse_cli_arguments():
     return args_dict
 
 def gather_params_in_list(args):
+    """
+    Helper function called in parse_cli_arguments(). This serves only one function:
+    Harmonizing the return values of parse_cli_arguments() and parse_config_file().
+
+    Arguments:
+    args -- dictionary of arguments from parse_cli_arguments()
+
+    Returns:
+    args_dict -- dictionary of arguments where x0, a (and b) are in a list
+    """
     args_dict = args.copy()
     x0 = args_dict.pop('x0')
     a = args_dict.pop('a')
@@ -44,6 +61,12 @@ def gather_params_in_list(args):
     return args_dict
     
 def parse_config_file():
+    """
+    This function parses arguments from config.ini.
+
+    Returns:
+    args -- dictionary of configurations from config.ini
+    """
     assert os.path.isfile(CONFIG_FILE)
     
     config = configparser.ConfigParser()

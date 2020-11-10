@@ -1,4 +1,5 @@
 import sys
+
 import quantum_energy.estimate_ground_state as estimate
 from quantum_energy.utils import parse_cli_arguments, parse_config_file
 

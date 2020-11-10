@@ -14,7 +14,6 @@ import quantum_energy.optimization as optimization
 
 def one_particle_estimation(args):
     # Unpacking input variables
-
     params = args['params']
     max_iter = args['max_iter']
     lr = args['lr']
@@ -24,14 +23,14 @@ def one_particle_estimation(args):
     L = args['L']
     N = args['N']
 
-    h = L / N # Stepsize
+    h = L / N # stepsize
 
-    # Argument vector
+    # initializing argument vector 'xi', vector representation of potential term 'v_vector' and 
     xi = np.linspace(-L/2, L/2, N)
     v_vector = physics.get_v_vector(xi, func)
     finite_difference_matrix = physics.create_2nd_order_finite_difference_scheme(N, h)
 
-    # Calculates energy at inital guess
+    # Calculates the energy at inital guess
     initial_energy = physics.compute_e(params, lr, finite_difference_matrix, v_vector, xi)
 
     # Running gradient descent
@@ -40,13 +39,16 @@ def one_particle_estimation(args):
         func_args=[lr, finite_difference_matrix, v_vector, xi]
         )
 
-    # Calculates energy after gradient descent
+    # Calculates the energy with updated parameters after gradient descent
     new_energy = physics.compute_e(new_params, lr, finite_difference_matrix, v_vector, xi)
 
+    # Solves the time-independent schrodinger equation to find the 'true' energy and wavefunction
     E, u = physics.most_accurate_e(finite_difference_matrix, v_vector)
 
+    # Prints information about parameter values, number of iterations used, values of energy,  and percentage error
     optimization.print_estimate(params, new_params, initial_energy, new_energy, iterations_used, max_iter, E)
 
+    # Plotting
     if (print_plot):
         plots.plot_wave_functions(old_params = params, new_params = new_params, xi=xi, u=u, h=h)
         if len(params) == 2:
@@ -57,9 +59,9 @@ def one_particle_estimation(args):
 
 
 def two_particle_estimation(args):
-    # Unpacking input variables
     assert len(args['params']) == 2, 'Two particle estimation only works with two parameters!'
-
+    
+    # Unpacking input variables
     params = args['params']
     w0 = args['w0']
     max_iter = args['max_iter']
@@ -72,9 +74,8 @@ def two_particle_estimation(args):
     
     h = L / N # Stepsize
 
-    # Argument vector
+    # Initializing argument vector 'xi', W term, finite difference matrix and H-matrix.
     xi= np.linspace(-L/2, L/2, N)
-
     W = physics2.create_w_matrix(xi, w0)
     fdm = physics.create_2nd_order_finite_difference_scheme(N, h)
     H = physics2.create_H_matrix(fdm, xi)
@@ -89,10 +90,10 @@ def two_particle_estimation(args):
     # Calculates energy after gradient descent
     new_energy = physics2.calculate_e(new_params, xi, W, H)
 
-    # E, u = physics.most_accurate_e(finite_difference_matrix, v_vector)
-
+    # Prints information about parameter values, number of iterations used and energy values
     optimization.print_estimate(params, new_params, initial_energy, new_energy, iterations_used, max_iter, None)
 
+    # Plotting
     if (print_plot):
         plots.plot_psi_matrix(params, new_params, xi)
         _, ax = plots.plot_gradient_descent(gradient_path, L, h, e_func = physics2.calculate_e, e_func_args = [xi, W, H], block_plot = not interactive_mode )
