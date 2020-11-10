@@ -7,7 +7,26 @@ from quantum_energy.optimization import gradient_descent
 
 
 def create_plot_axes(x_min, x_max, x_step, y_min, y_max, y_step, e_func, e_args):
-    """Creating surface for plotting"""
+    """
+    This function creates axes and evaluates a given function, 'e_func', at all points
+    within bounds specified by 'x_min', 'x_max', 'y_min', and 'y_max' in order to create
+    surface plot of e_func.
+    
+    Arguments:
+    x_min -- minimum value for x-axes
+    x_max -- maximum values for x-axes
+    x_step -- step length for x-axes
+    y_min -- minimum value for y-axes
+    y_max -- maximum values for y-axes
+    y_step -- step length for y-axes
+    e_func -- function to plot
+    e_args -- list of arguments passed to 'e_func'
+
+    Returns:
+    X -- coordinate matrix for x-axes
+    Y -- coordinate matrix for y-axes
+    E -- coordinate matrix for 'e_func'
+    """
 
     X = np.arange(x_min, x_max, x_step)
     Y = np.arange(y_min, y_max, y_step)
@@ -17,6 +36,14 @@ def create_plot_axes(x_min, x_max, x_step, y_min, y_max, y_step, e_func, e_args)
     return X, Y, E
 
 def plot_psi_matrix(guess_params, new_params, xi):
+    """
+    This function plots a surface plot of the wavefunction for two-particle systems.
+
+    Arguments:
+    guess_params -- list of parameters before gradient descent
+    new_params -- list of parameters after gradient descent
+    xi -- list of x-values.
+    """
 
     fig = plt.figure(figsize=(10,8))
     ax = fig.add_subplot(111, projection='3d')
@@ -53,8 +80,19 @@ def plot_psi_matrix(guess_params, new_params, xi):
     plt.show()
     
 
-
 def plot_gradient_descent(gradient_path, L, h, e_func, e_func_args, block_plot):
+    """
+    Plots surface plot of energy function 'e_func' along with the path taken
+    by gradient descent.
+
+    Arguments:
+    gradient_path -- list of points
+    L -- length of interval
+    h -- step size
+    e_func -- function to plot
+    e_func_args -- list of arguments to e_func
+    block_plot -- boolean specifying whether plot shall block rest of script or not
+    """
     fig = plt.figure(figsize=(10,8))
     ax = fig.add_subplot(111, projection='3d')
 
@@ -78,6 +116,13 @@ def plot_gradient_descent(gradient_path, L, h, e_func, e_func_args, block_plot):
     return (fig,ax)
 
 def plot_new_path(ax, gradient_path):
+    """
+    Plots path on a given axes-object.
+
+    Arguments:
+    ax -- axes object to plot on
+    gradient_path -- list of points
+    """
     gradient_path = np.array(gradient_path) # transforms into a numpy array
     ax.plot(gradient_path[::1,0], gradient_path[::1,1], gradient_path[::1,2], 'bx-', label='path')
     ax.plot(gradient_path[-1:,0], gradient_path[-1:,1], gradient_path[-1:,2], markerfacecolor='r', marker='o', markersize=5, label='endpoint')
@@ -85,6 +130,17 @@ def plot_new_path(ax, gradient_path):
 
 
 def plot_wave_functions(old_params, new_params, xi, u , h):
+    """
+    Plots test-function before and after gradient descent
+    and the 'true' wavefunction on a single plot.
+
+    Arguments:
+    old_params -- list of params before gradient descent
+    new_params -- list of parameters after gradient descent
+    xi -- list of x-values
+    u -- eigenvector representing the 'true' wavefunction
+    h -- step size
+    """
     fig, ax = plt.subplots(figsize=(10,6))
     plt.title('Psi')
 
@@ -102,6 +158,14 @@ def plot_wave_functions(old_params, new_params, xi, u , h):
     plt.show()
 
 def interactive_plot(ax, gd_args):
+    """
+    Plots consecutive paths from gradient descent if "interactive" is set to True in config.ini
+
+    Arguments:
+    ax -- axes object to plot on
+    gd_args -- list arguments to gradient_descent()
+    """
+
     while True:
         plot_again = input('\nDo you want to plot another path? y/n: ')
 
@@ -118,8 +182,10 @@ def interactive_plot(ax, gd_args):
             break
 
 def norm_vector(vector, h):
+    """Returns the norm of a vector"""
     return h*(vector.T @ vector)
 
 def norm_matrix(matrix, h):
+    """Returns the norm of a matrix"""
     return h**2 * np.sum(np.sum(np.abs(matrix)**2))
 
