@@ -37,26 +37,21 @@ def get_v_vector(x, func, k = 1):
     elif (func == 'func2'):
         return np.array(1 - np.exp(-((1/2)*k*x**2))).reshape(-1, 1)
 
-def psi_func(x, *args):
+def psi_func(x, params):
     """
     Returns the test wave function
 
     Arguments:
     x -- list of x-values
-    *args -- two or three integers, x0, a (and b).
+    params -- list of parameters, x0, a and eventually b
     
     """
-    if len(args) == 2:
-        x0, a = args
-        return np.exp(-a*(x-x0)**2)
-    elif len(args) == 3:
-        x0, a, b = args
-        return np.exp(-abs(a)*(x-x0)**2/(np.sqrt(1 + abs(b)*x**2)))
-
-def create_psi_vector(xi, params):
-    """
-    """
-    return np.array(psi_func(xi, *params)).reshape(-1,1)
+    if len(params) == 2:
+        x0, a = params
+        return np.exp(-a*(x-x0)**2).reshape(-1, 1)
+    elif len(params) == 3:
+        x0, a, b = params
+        return np.exp(-abs(a)*(x-x0)**2/(np.sqrt(1 + abs(b)*x**2))).reshape(-1, 1)
 
 def create_2nd_order_finite_difference_scheme(N, h):
     """
@@ -94,7 +89,7 @@ def compute_e(params, h, finite_difference_matrix, v_vector, xi):
     Returns:
     e -- scalar value of the energy
     """
-    psi_vector = create_psi_vector(xi, params)
+    psi_vector = psi_func(xi, params)
 
     h_psi = -1/2*(finite_difference_matrix @ psi_vector) + (v_vector * psi_vector)
      

@@ -146,11 +146,11 @@ def plot_wave_functions(old_params, new_params, xi, u , h):
 
     plt.plot(xi, (u/np.sqrt(h))**2, label = 'Fasit')
 
-    psi = psi_func(xi, *old_params)
+    psi = psi_func(xi, old_params)
     psi_norm = psi/np.sqrt(norm_vector(psi, h))
     ax.plot(xi, psi_norm**2, 'r--', label = 'Start')
 
-    psi = psi_func(xi, *new_params)
+    psi = psi_func(xi, new_params)
     psi_norm = psi/np.sqrt(norm_vector(psi, h))
     ax.plot(xi, psi_norm**2, 'y--', label = 'Slutt')
 
