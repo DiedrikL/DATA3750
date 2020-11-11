@@ -44,8 +44,8 @@ def psi_func(x, params):
     Arguments:
     x -- list of x-values
     params -- list of parameters, x0, a and eventually b
-    
     """
+
     if len(params) == 2:
         x0, a = params
         return np.exp(-a*(x-x0)**2).reshape(-1, 1)
