@@ -7,7 +7,8 @@ def most_accurate_e(finite_difference_matrix, v_vector):
     E, u = np.linalg.eig(H)
     E_min = np.amin(E)
     index = np.where(E == E_min)[0][0]
-    return E_min, u[:,index].reshape(-1, 1)
+    wave_func = u[:,index].reshape(-1, 1)
+    return E_min, wave_func
 
 def get_v_vector(x, func, k = 1):
     if (func == 'func1'):
