@@ -5,7 +5,7 @@ DATA3750 (Anvendt kunstig intelligens og data science prosjekt) femte semester p
 Skriptet vil, for gitte kvantesystemer med opptil to partikler, estimere grunntilstanden ved å minimere energien med gradient descent.
 Beregningene kan visualiseres med plott.
 
-## Bruk
+## Hvordan bruke skriptet
 Input-parametere mates inn ved hjelp av config-filen som liger i mappen quantum_energy. Du kan endre verdiene direkte i filen. Husk å lagre for å kjøre skriptet med de oppdaterte verdiene.
 ```
 [PARAMS]
@@ -46,7 +46,7 @@ Skriptet krever Python 3.8 eller senere. Det er ikke testet på tidligere versjo
 ```
 python --version
 ```
-For å installere Python gå til https://www.python.org/downloads/.
+For å installere Python gå til https://www.python.org/downloads/.  
 Om du bruker Linux kan du installere direkte fra terminalen ved å skrive:
 ```
 $ sudo apt-get update
