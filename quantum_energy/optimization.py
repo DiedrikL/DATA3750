@@ -72,7 +72,7 @@ def gradient_descent(params, max_iterations, plot, lr, func, func_args):
         else:
             params, e =  new_params, new_e # updates the variables with the new values
             test = round(1/lr)
-            if (used_iterations % test == 0) and plot:
+            if (used_iterations % test == 0 or used_iterations < 4) and plot:
                 add_plot(new_params, new_e)
         
         used_iterations += 1
