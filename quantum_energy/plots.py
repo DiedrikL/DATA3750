@@ -35,7 +35,7 @@ def create_plot_axes(x_min, x_max, x_step, y_min, y_max, y_step, e_func, e_args)
     X, Y = np.meshgrid(X, Y)
     return X, Y, E
 
-def plot_psi_matrix(guess_params, new_params, xi):
+def plot_psi_matrix(guess_params, new_params, xi, plot_zoom=4):
     """
     This function plots a surface plot of the wavefunction for two-particle systems.
 
@@ -56,8 +56,8 @@ def plot_psi_matrix(guess_params, new_params, xi):
     psi_guess_norm = psi_guess/np.sqrt(norm_matrix(psi_guess, step_size))
 
     size_x, size_y = X.shape
-    start = round(size_x/4)
-    stop = round(size_x - size_x/4)
+    start = round(size_x/plot_zoom)
+    stop = round(size_x - size_x/plot_zoom)
 
     psi_guess_plot = psi_guess_norm[start:stop, start:stop]
 
