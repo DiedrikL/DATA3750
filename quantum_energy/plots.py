@@ -55,7 +55,17 @@ def plot_psi_matrix(guess_params, new_params, xi):
     psi_guess =  create_psi_matrix(guess_x0, guess_a, xi)
     psi_guess_norm = psi_guess/np.sqrt(norm_matrix(psi_guess, step_size))
 
-    surface = ax.plot_surface(X, Y, Z=psi_guess_norm, rstride=10, cstride=10, cmap='plasma',alpha = 0.5, label = 'psi_old')
+    size_x, size_y = X.shape
+    start = round(size_x/4)
+    stop = round(size_x - size_x/4)
+
+    psi_guess_plot = psi_guess_norm[start:stop, start:stop]
+
+    Xn = X[start:stop, start:stop]
+    Yn = Y[start:stop, start:stop]
+
+
+    surface = ax.plot_surface(Xn, Yn, Z=psi_guess_plot, rstride=10, cstride=10, cmap='plasma',alpha = 0.5, label = 'psi_old')
     surface._facecolors2d=surface._facecolors3d
     surface._edgecolors2d=surface._edgecolors3d
 
@@ -63,15 +73,17 @@ def plot_psi_matrix(guess_params, new_params, xi):
     psi_new =  create_psi_matrix(x0, a, xi)
     psi_new_norm = psi_new/np.sqrt(norm_matrix(psi_new, step_size))
 
-    surface = ax.plot_surface(X, Y, Z=psi_new_norm,rstride=10, cstride=10, cmap='viridis',alpha = 0.8, label = 'psi_new')
+    psi_new_plot = psi_new_norm[start:stop, start:stop]
+
+    surface = ax.plot_surface(Xn, Yn, Z=psi_new_plot,rstride=10, cstride=10, cmap='viridis',alpha = 0.8, label = 'psi_new')
     surface._facecolors2d=surface._facecolors3d
     surface._edgecolors2d=surface._edgecolors3d
-
     ax.set_title('Psi(x0, a)', fontsize=20)
     ax.set_xlabel(r'${x_1}$', fontsize=15)
     ax.set_ylabel(r'${x_2}$', fontsize=15)
     ax.set_zlabel('psi', fontsize=15)
-    ax.view_init(elev=35, azim=300)
+    ax.view_init(elev=10, azim=45)
+    
     ax.legend(loc='upper left')
     leg = ax.get_legend()
     leg.legendHandles[0].set_color('salmon')
@@ -97,7 +109,7 @@ def plot_gradient_descent(gradient_path, L, h, e_func, e_func_args, block_plot):
     ax = fig.add_subplot(111, projection='3d')
 
     # Surface plot
-    X, Y, E = create_plot_axes(-L/3, L/3, h*10, 0.2, 5, 0.1, e_func, e_func_args) 
+    X, Y, E = create_plot_axes(-3, 3, h*5, 0.05, 5, 0.1, e_func, e_func_args) 
     ax.plot_surface(X, Y, Z=E.T, rstride=1, cstride=1, cmap='viridis', alpha = 0.6)
 
     # Path
