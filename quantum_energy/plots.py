@@ -142,17 +142,17 @@ def plot_wave_functions(old_params, new_params, xi, u , h):
     h -- step size
     """
     fig, ax = plt.subplots(figsize=(10,6))
-    plt.title('Psi')
+    plt.title('Bølgefunksjoner', fontsize=15)
 
-    plt.plot(xi, (u/np.sqrt(h))**2, label = 'Fasit')
+    plt.plot(xi, (u/np.sqrt(h))**2, label = 'Fasit bølgefunksjon', lw=2.5)
 
     psi = psi_func(xi, old_params)
     psi_norm = psi/np.sqrt(norm_vector(psi, h))
-    ax.plot(xi, psi_norm**2, 'r--', label = 'Start')
+    ax.plot(xi, psi_norm**2,'r--',  lw=2.5, label = 'Test-bølgefunksjon før gradient descent')
 
     psi = psi_func(xi, new_params)
     psi_norm = psi/np.sqrt(norm_vector(psi, h))
-    ax.plot(xi, psi_norm**2, 'y--', label = 'Slutt')
+    ax.plot(xi, psi_norm**2, 'y--', lw=2.5, label = 'Test-bølgefunksjon etter gradient descent')
 
     plt.legend()
     plt.show()
