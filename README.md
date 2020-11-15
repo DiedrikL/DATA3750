@@ -90,3 +90,4 @@ Aleksander Røv, s187428, s187428@oslomet.no
 Vegard Müller, s150315, s150315@oslomet.no 
 
 ## Lisens
+Kildekoden i dette prosjektet er lisensert under MIT-lisensen. Les mer under filen [LICENSE.md](https://github.com/DiedrikL/DATA3750/blob/master/LICENSE.md)
