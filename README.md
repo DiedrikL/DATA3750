@@ -43,7 +43,7 @@ interactive = True
 * **lr**: læringsraten til gradient descent algoritmen
 * **max_iter**: Maks antall iterasjoner i gradient descent
 * **plot**: Skriv **True** om du ønsker plott, **False** om du ikke ønsker plott
-* **function**: Velg blant **func1** og **func2** (se besrkivelse nedenfor)
+* **function**: Velg blant **func1** og **func2** (se beskrivelse [nedenfor](https://github.com/DiedrikL/DATA3750#funksjoner))
 * **num_particles**: Her velger du om du ønsker estimering for én eller to partikler. b-parameteren må kommenteres ut ved to partikler.
 * **interactive**: Om du ønsker å plotte flere stier kan du sette til **True**. Du får da mulighet til å gjette på (og plotte) så mange parametere du ønsker. Sett til **False** om du ikke ønsker dette.  
   
@@ -53,7 +53,8 @@ python -m quantum_energy
 ```
 
 ### Funksjoner
-
+**func1**: V(x)=(1/2)x^2
+**func2**: V(x)=1−exp(-(1/2)x^2)
 
 ### Komme i gang med Python
 Skriptet krever Python 3.8 eller senere. Det er ikke testet på tidligere versjoner av Python. Du kan sjekke hvilken versjon du har med kommandoen:
