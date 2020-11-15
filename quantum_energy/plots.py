@@ -109,7 +109,7 @@ def plot_gradient_descent(gradient_path, L, h, e_func, e_func_args, block_plot):
     ax = fig.add_subplot(111, projection='3d')
 
     # Surface plot
-    X, Y, E = create_plot_axes(-L/3, L/3, h*10, 0.1, 2, 0.2, e_func, e_func_args) 
+    X, Y, E = create_plot_axes(-L/3, L/3, h*10, 0.1, 5, 0.1, e_func, e_func_args) 
 
     ax.plot_surface(X, Y, Z=E.T, rstride=1, cstride=1, cmap='viridis', alpha = 0.6)
 
