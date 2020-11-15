@@ -18,8 +18,12 @@ def create_psi_matrix(params, xi):
     Returns:
     psi_total --  The matrix of values for two particle wave function
     """
+    params_minus = params.copy()
+    x0 = params[0]
+    params_minus[0] = -x0
+
     psi_pluss= physics.psi_func(xi, params)
-    psi_minus = physics.psi_func(xi, params)
+    psi_minus = physics.psi_func(xi, params_minus)
 
     psi_total = psi_pluss @ psi_minus.T + psi_minus @ psi_pluss.T
     
