@@ -78,6 +78,10 @@ Matplotlib kan installeres med pip ved å skrive inn følgende kommando:
 ```
 pip install matplotlib
 ```
+* Alternativt kan du installere alle avhengigheter ved å skrive:
+```
+pip install -r requirements.txt
+```
 
 ## Laget av / kontaktopplysninger
 Diedrik Leijenaar Oksnes, s181138, s181138@oslomet.no  
