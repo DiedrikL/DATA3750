@@ -53,8 +53,7 @@ def plot_psi_matrix(guess_params, new_params, xi, plot_zoom=4):
     X, Y = np.meshgrid(xi, xi)
     step_size = (np.max(xi) - np.min(xi))/len(xi)
 
-    guess_x0, guess_a = guess_params
-    psi_guess =  create_psi_matrix(guess_x0, guess_a, xi)
+    psi_guess =  create_psi_matrix(guess_params, xi)
     psi_guess_norm = psi_guess/np.sqrt(norm_matrix(psi_guess, step_size))
 
     size_x, size_y = X.shape
@@ -71,8 +70,7 @@ def plot_psi_matrix(guess_params, new_params, xi, plot_zoom=4):
     surface._facecolors2d=surface._facecolors3d
     surface._edgecolors2d=surface._edgecolors3d
 
-    x0, a = new_params
-    psi_new =  create_psi_matrix(x0, a, xi)
+    psi_new =  create_psi_matrix(new_params, xi)
     psi_new_norm = psi_new/np.sqrt(norm_matrix(psi_new, step_size))
 
     psi_new_plot = psi_new_norm[start:stop, start:stop]
@@ -111,7 +109,7 @@ def plot_gradient_descent(gradient_path, L, h, e_func, e_func_args, block_plot):
     ax = fig.add_subplot(111, projection='3d')
 
     # Surface plot
-    X, Y, E = create_plot_axes(-L/3, L/3, h*10, 0.02, 5, 0.1, e_func, e_func_args) 
+    X, Y, E = create_plot_axes(-1, 2.2, h*10, 0.1, 2, 0.1, e_func, e_func_args) 
 
     ax.plot_surface(X, Y, Z=E.T, rstride=1, cstride=1, cmap='viridis', alpha = 0.6)
 
@@ -125,7 +123,7 @@ def plot_gradient_descent(gradient_path, L, h, e_func, e_func_args, block_plot):
     ax.set_xlabel(r'${x_0}$', fontsize=15)
     ax.set_ylabel('a', fontsize=15)
     ax.set_zlabel('e', fontsize=15)
-    ax.view_init(elev=35, azim=300)
+    ax.view_init(elev=20, azim=300)
     fig.legend(loc='upper left')
     plt.show(block = block_plot)
     return (fig,ax)
