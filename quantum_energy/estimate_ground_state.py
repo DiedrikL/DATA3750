@@ -60,7 +60,7 @@ def one_particle_estimation(args):
 
 def two_particle_estimation(args):
 
-    assert len(args['params']) == 2 or len(args['params']) == 3 , 'Two particle estimation only works with two parameters! Please comment out the b-parameter'
+    assert len(args['params']) == 2 or len(args['params']) == 3 , 'Two particle estimation only works with two or three parameters!'
 
     
     # Unpacking input variables
