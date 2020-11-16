@@ -2,7 +2,7 @@ import numpy as np
 import quantum_energy.physics.one_particle as physics
 
 
-def create_psi_matrix(x0, a, xi):
+def create_psi_matrix(params, xi):
     """
     This function creates and returns a matrix populated with values from the wave funtion for two particles
 
@@ -18,8 +18,12 @@ def create_psi_matrix(x0, a, xi):
     Returns:
     psi_total --  The matrix of values for two particle wave function
     """
-    psi_pluss= physics.psi_func(xi, [x0, a])
-    psi_minus = physics.psi_func(xi, [-x0, a])
+    params_minus = params.copy()
+    x0 = params[0]
+    params_minus[0] = -x0
+
+    psi_pluss= physics.psi_func(xi, params)
+    psi_minus = physics.psi_func(xi, params_minus)
 
     psi_total = psi_pluss @ psi_minus.T + psi_minus @ psi_pluss.T
     
@@ -87,9 +91,9 @@ def calculate_e(params, xi, W, H):
     Returns:
     e -- the energy for the wave function calculated
     """
-    x0, a = params
+    #x0, a = params
 
-    psi = create_psi_matrix(x0, a, xi)
+    psi = create_psi_matrix(params, xi)
     phi = create_phi_matrix(W, H, psi)
 
     e = sum(sum(psi * phi))/(sum(sum(psi * psi)))

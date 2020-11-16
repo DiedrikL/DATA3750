@@ -60,7 +60,7 @@ def one_particle_estimation(args):
 
 def two_particle_estimation(args):
 
-    assert len(args['params']) == 2, 'Two particle estimation only works with two parameters! Please comment out the b-parameter'
+    assert len(args['params']) == 2 or len(args['params']) == 3 , 'Two particle estimation only works with two or three parameters!'
 
     
     # Unpacking input variables
@@ -98,9 +98,10 @@ def two_particle_estimation(args):
     # Plotting
     if (print_plot):
         plots.plot_psi_matrix(params, new_params, xi)
-        _, ax = plots.plot_gradient_descent(gradient_path, L, h, e_func = physics2.calculate_e, e_func_args = [xi, W, H], block_plot = not interactive_mode )
-        if interactive_mode:
-            plots.interactive_plot(ax=ax, gd_args=[max_iter, True, lr, physics2.calculate_e,  [xi, W, H]])
+        if len(params) == 2:
+            _, ax = plots.plot_gradient_descent(gradient_path, L, h, e_func = physics2.calculate_e, e_func_args = [xi, W, H], block_plot = not interactive_mode )
+            if interactive_mode:
+                plots.interactive_plot(ax=ax, gd_args=[max_iter, True, lr, physics2.calculate_e,  [xi, W, H]])
             
 
 def run(args, num_particles):
