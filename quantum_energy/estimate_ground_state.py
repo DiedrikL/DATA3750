@@ -2,8 +2,6 @@
 # coding: utf-8
 
 # The Energy of a Quantum Physical Two-Body System
-
-#Importing libraries
 import numpy as np
 
 import quantum_energy.physics.one_particle as physics
@@ -25,7 +23,8 @@ def one_particle_estimation(args):
 
     h = L / N # stepsize
 
-    # initializing argument vector 'xi', vector representation of potential term 'v_vector' and 
+    # initializing argument vector 'xi', vector representation of potential term 'v_vector'
+    # and finite difference matrix
     xi = np.linspace(-L/2, L/2, N)
     v_vector = physics.get_v_vector(xi, func)
     finite_difference_matrix = physics.create_2nd_order_finite_difference_scheme(N, h)
